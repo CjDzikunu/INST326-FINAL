@@ -12,4 +12,10 @@ class Player:
         
     def is_alive(self):
         return self.health > 0
+    
+class Story:
+    def __init__(self,story_id,story_text,choices):
+        self.story_id =story_id
+        self.story_text = story_text
+        self.choices = choices
 
