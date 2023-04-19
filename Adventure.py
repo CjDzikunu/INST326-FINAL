@@ -18,6 +18,15 @@ class Story:
         self.story_id =story_id
         self.story_text = story_text
         self.choices = choices
+        
+    def display_story(self):
+        return self.story_text
+    
+    def get_choices(self):
+        return self.choices
+    
+    def update_story(self, choice):
+        return self.choices.get(choice, None)
 
 class Game:
     def __init__(self, player_name, story_id, story_text, choices):
