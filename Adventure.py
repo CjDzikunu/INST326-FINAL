@@ -39,14 +39,6 @@ class Game:
             for line in lines:
                 line = line.strip()
 
-
-def main():
-    player_name = input("Enter your name: ")
-    game = Game(player_name, "story.txt")
-    game.play_game()
-
-if __name__ == "__main__":
-    main()
     def __init__(self, player_name, story_id, story_text, choices):
         self.player = Player(player_name, health=100)
         self.story = Story(story_id, story_text, choices)
@@ -61,10 +53,14 @@ if __name__ == "__main__":
             self.story.update_story(choice)
         print("Game Over")
         
+def main():
+    player_name = input("Enter your name: ")
+    game = Game(player_name, "story.txt")
+    game.play_game()
 
-    
-
-
+if __name__ == "__main__":
+    main()
+        
 def parse_args(arglist):
     """Parse command-line arguments.
     
