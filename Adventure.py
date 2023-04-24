@@ -16,12 +16,37 @@ class Player:
         return self.health > 0
     
 class Story:
-    def __init__(self,story_id,story_text,choices):
-        self.story_id =story_id
+    def __init__(self, story_id, story_text, choices):
+        self.story_id = story_id
         self.story_text = story_text
         self.choices = choices
+    
+    def display_story(self):
+        return self.story_text
+    
+    def get_choices(self):
+        return self.choices
+    
+    def update_story(self, choice):
+        return self.choices.get(choice, None)
 
 class Game:
+    def __init__(self, name, filepath):
+        self.player = Player(name)
+        self.story_map = {}
+        with open(filepath, "r", "utf-8") as f:
+            lines = f.readlines()
+            for line in lines:
+                line = line.strip()
+
+
+def main():
+    player_name = input("Enter your name: ")
+    game = Game(player_name, "story.txt")
+    game.play_game()
+
+if __name__ == "__main__":
+    main()
     def __init__(self, player_name, story_id, story_text, choices):
         self.player = Player(player_name, health=100)
         self.story = Story(story_id, story_text, choices)
