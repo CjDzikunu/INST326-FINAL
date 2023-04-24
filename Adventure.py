@@ -45,3 +45,16 @@ def main():
 
 if __name__ == "__main__":
     main()
+    def __init__(self, player_name, story_id, story_text, choices):
+        self.player = Player(player_name, health=100)
+        self.story = Story(story_id, story_text, choices)
+
+    def play(self):
+        while not self.story.is_game_over():
+            print(self.story.display_story())
+            choices = self.story.get_choices()
+            for choice_id, choice_data in choices.items():
+                print(f"{choice_id}: {choice_data['choice_text']}")
+            choice = input("Enter your choice: ")
+            self.story.update_story(choice)
+        print("Game Over")
