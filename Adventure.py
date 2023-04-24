@@ -31,8 +31,9 @@ class Story:
         return self.choices.get(choice, None)
 
 class Game(Player):
-    def __init__(self, name, health, filepath):
-        self.player = Player(name, health)
+    def __init__(self, name, filepath, health):
+        super().__init__(name, health)
+
         self.story_map = {}
         with open(filepath, "r", "utf-8") as f:
             lines = f.readlines()
@@ -51,6 +52,10 @@ class Game(Player):
             self.story.update_story(choice)
         print("Game Over")
         
+def main():
+    player_name = input("Enter your name: ")
+    game = Game(player_name, "story.txt")
+    game.play_game()
 
 def main():
     player_name = input("Enter your name: ")
