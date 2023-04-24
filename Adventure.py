@@ -30,9 +30,10 @@ class Story:
     def update_story(self, choice):
         return self.choices.get(choice, None)
 
-class Game:
-    def __init__(self, name, filepath):
-        self.player = Player(name)
+class Game(Player):
+    def __init__(self, name, filepath, health):
+        super().__init__(name, health)
+
         self.story_map = {}
         with open(filepath, "r", "utf-8") as f:
             lines = f.readlines()
