@@ -1,3 +1,5 @@
+import argparse
+import sys
 class Player:
     def __init__(self, name, health):
         self.name = name
@@ -33,3 +35,25 @@ class Game:
             choice = input("Enter your choice: ")
             self.story.update_story(choice)
         print("Game Over")
+
+
+def parse_args(arglist):
+    """Parse command-line arguments.
+    
+    Expects one mandatory command-line argument: a path to a text file where
+    each line consists of a name, a tab character, and a phone number.
+    
+    Args:
+        arglist (list of str): a list of command-line arguments to parse.
+        
+    Returns:
+        argparse.Namespace: a namespace object with a file attribute whose value
+        is a path to a text file as described above.
+    """
+    parser = ArgumentParser()
+    parser.add_argument("filepath", help="file of names and numbers")
+    return parser.parse_args(arglist)
+
+if __name__ == "__main__":
+    args = parse_args(sys.argv[1:])
+    main(args.file)
