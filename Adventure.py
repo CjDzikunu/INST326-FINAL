@@ -1,4 +1,4 @@
-import argparse
+from argparse import ArgumentParser
 import sys
 class Player:
     def __init__(self, name, health):
@@ -35,6 +35,9 @@ class Game:
             choice = input("Enter your choice: ")
             self.story.update_story(choice)
         print("Game Over")
+        
+
+    
 
 
 def parse_args(arglist):
@@ -51,7 +54,7 @@ def parse_args(arglist):
         is a path to a text file as described above.
     """
     parser = ArgumentParser()
-    parser.add_argument("filepath", help="file of names and numbers")
+    parser.add_argument("filepath", help="file of story")
     return parser.parse_args(arglist)
 
 if __name__ == "__main__":
