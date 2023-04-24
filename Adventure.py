@@ -30,26 +30,16 @@ class Story:
     def update_story(self, choice):
         return self.choices.get(choice, None)
 
-class Game:
-    def __init__(self, name, filepath):
-        self.player = Player(name)
+class Game(Player):
+    def __init__(self, name, health, filepath):
+        self.player = Player(name, health)
         self.story_map = {}
         with open(filepath, "r", "utf-8") as f:
             lines = f.readlines()
             for line in lines:
                 line = line.strip()
 
-
-def main():
-    player_name = input("Enter your name: ")
-    game = Game(player_name, "story.txt")
-    game.play_game()
-
-if __name__ == "__main__":
-    main()
-    def __init__(self, player_name, story_id, story_text, choices):
-        self.player = Player(player_name, health=100)
-        self.story = Story(story_id, story_text, choices)
+   
 
     def play(self):
         while not self.story.is_game_over():
@@ -62,7 +52,13 @@ if __name__ == "__main__":
         print("Game Over")
         
 
-    
+def main():
+    player_name = input("Enter your name: ")
+    game = Game(player_name, "story.txt")
+    game.play_game()
+
+if __name__ == "__main__":
+    main()
 
 
 def parse_args(arglist):
