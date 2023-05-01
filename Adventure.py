@@ -57,11 +57,6 @@ def main():
     game = Game(player_name, "story.txt")
     game.play_game()
 
-def main():
-    player_name = input("Enter your name: ")
-    game = Game(player_name, "story.txt")
-    game.play_game()
-
 if __name__ == "__main__":
     main()
 
