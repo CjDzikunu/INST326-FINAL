@@ -72,16 +72,15 @@ class Game(Player):
         print("Game Over")
         
 def main(filepath, name, health=100):
-    name = input("Enter your name: ")
-    game = Game(name, filepath, health)
+    game = Game(filepath, name, health)
     game.play()
 
 if __name__ == "__main__":
     parser = ArgumentParser()
-    parser.add_argument("filepath", help="path to stroy file")
+    parser.add_argument("filepath", help="path to story file")
     parser.add_argument("--name", help="player name (default: Player)", default="Player")
     parser.add_argument("--health", help="player health (default: 100)", type=int, default=100)
     args = parser.parse_args()
     main(args.filepath, args.name, args.health)
-    
+
 
