@@ -30,22 +30,23 @@ class Story:
     def update_story(self, choice):
         return self.choices.get(choice, None)
 
-class Game(Player):
+class Game(Player, Story):
     def __init__(self, filepath, name, health):
         super().__init__(name, health)
+        
         self.story_map = {}
         with open(filepath, "r", encoding = "utf-8") as f:
-            story_id = None
-            story_text = " "
-            choices = {}
+            
             for line in f:
                 line = line.strip()
                 if not line:
                     continue
+                story_id = " "
+                story_text = ""
+                choices = {}  
                 parts = line.split(":")
                 if len(parts) == 2:
                     story_id, story_text = parts
-                    choices = {}
                 elif len(parts) == 3:
                     choice_id, choice_text, result = parts
                     if result == "game_over":
@@ -54,8 +55,11 @@ class Game(Player):
                         choices[choice_id] = {"choice_text": choice_text, "next_story": result}
                 else:
                     raise ValueError(f"Invalid line: {line}")
-                self.story_map[story_id] = Story(story_id, story_text, choices)
-            print(f"story_map: {self.story_map}")
+        self.story_map[story_id] = Story(story_id, story_text, choices)
+
+   
+    
+
    
 
     def play(self):
