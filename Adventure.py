@@ -31,7 +31,7 @@ class Story:
         return self.choices.get(choice, None)
 
 class Game(Player):
-    def __init__(self, name, filepath, health):
+    def __init__(self, filepath, name, health):
         super().__init__(name, health)
 
         self.story_map = {}
@@ -54,7 +54,7 @@ class Game(Player):
         
 def main():
     player_name = input("Enter your name: ")
-    game = Game(player_name, "story.txt")
+    game = Game(player_name, "story.txt", 100)
     game.play_game()
 
 if __name__ == "__main__":
