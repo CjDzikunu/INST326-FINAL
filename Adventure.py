@@ -1,10 +1,10 @@
 from argparse import ArgumentParser
 import sys
 class Player:
-    def __init__(self, name, health):
+    def __init__(self, name, health=100):
         self.name = name
         self.inventory = []
-        self.health = 100
+        self.health = int(health)
 
     def add_item(self, item):
         self.inventory.append(item)
@@ -33,23 +33,42 @@ class Story:
 class Game(Player):
     def __init__(self, filepath, name, health):
         super().__init__(name, health)
-
         self.story_map = {}
-        with open(filepath, "r", "utf-8") as f:
-            lines = f.readlines()
-            for line in lines:
+        with open(filepath, "r", encoding = "utf-8") as f:
+            story_id = None
+            story_text = " "
+            choices = {}
+            for line in f:
                 line = line.strip()
-
+                if not line:
+                    continue
+                parts = line.split(":")
+                if len(parts) == 2:
+                    story_id, story_text = parts
+                    choices = {}
+                elif len(parts) == 3:
+                    choice_id, choice_text, result = parts
+                    if result == "game_over":
+                        choices[choice_id] = {"choice_text": choice_text, "is_game_over": True}
+                    else:
+                        choices[choice_id] = {"choice_text": choice_text, "next_story": result}
+                else:
+                    raise ValueError(f"Invalid line: {line}")
+                self.story_map[story_id] = Story(story_id, story_text, choices)
+            print(f"story_map: {self.story_map}")
    
 
     def play(self):
-        while not self.story.is_game_over():
-            print(self.story.display_story())
-            choices = self.story.get_choices()
+        current_story_id = "start"
+        print(self.story_map.keys())
+        while not self.story_map[current_story_id].get_choices().get("game_over", {}).get("is_game_over"):
+            story = self.story_map[current_story_id]
+            print(story.display_story())
+            choices = story.get_choices()
             for choice_id, choice_data in choices.items():
                 print(f"{choice_id}: {choice_data['choice_text']}")
             choice = input("Enter your choice: ")
-            self.story.update_story(choice)
+            current_story_id = story.update_story(choice).get("next_story")
         print("Game Over")
         
 def main():
@@ -58,26 +77,11 @@ def main():
     game.play_game()
 
 if __name__ == "__main__":
-    main()
-
-
-def parse_args(arglist):
-    """Parse command-line arguments.
-    
-    Expects one mandatory command-line argument: a path to a text file where
-    each line consists of a name, a tab character, and a phone number.
-    
-    Args:
-        arglist (list of str): a list of command-line arguments to parse.
-        
-    Returns:
-        argparse.Namespace: a namespace object with a file attribute whose value
-        is a path to a text file as described above.
-    """
     parser = ArgumentParser()
-    parser.add_argument("filepath", help="file of story")
-    return parser.parse_args(arglist)
+    parser.add_argument("filepath", help="path to stroy file")
+    parser.add_argument("--name", help="player name (default: Player)", default="Player")
+    parser.add_argument("--health", help="player health (default: 100)", type=int, default=100)
+    args = parser.parse_args()
+    main(args.filepath, args.name, args.health)
+    
 
-if __name__ == "__main__":
-    args = parse_args(sys.argv[1:])
-    main(args.file)
