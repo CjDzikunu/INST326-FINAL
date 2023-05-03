@@ -4,7 +4,7 @@ class Player:
     def __init__(self, name, health=100):
         self.name = name
         self.inventory = []
-        self.health = int(health)
+        self.health = 100
 
     def add_item(self, item):
         self.inventory.append(item)
@@ -33,29 +33,13 @@ class Story:
 class Game(Player):
     def __init__(self, filepath, name, health):
         super().__init__(name, health)
+
         self.story_map = {}
-        with open(filepath, "r", encoding = "utf-8") as f:
-            story_id = None
-            story_text = " "
-            choices = {}
-            for line in f:
+        with open(filepath, "r", "utf-8") as f:
+            lines = f.readlines()
+            for line in lines:
                 line = line.strip()
-                if not line:
-                    continue
-                parts = line.split(":")
-                if len(parts) == 2:
-                    story_id, story_text = parts
-                    choices = {}
-                elif len(parts) == 3:
-                    choice_id, choice_text, result = parts
-                    if result == "game_over":
-                        choices[choice_id] = {"choice_text": choice_text, "is_game_over": True}
-                    else:
-                        choices[choice_id] = {"choice_text": choice_text, "next_story": result}
-                else:
-                    raise ValueError(f"Invalid line: {line}")
-                self.story_map[story_id] = Story(story_id, story_text, choices)
-            print(f"story_map: {self.story_map}")
+
    
 
     def play(self):
@@ -83,6 +67,7 @@ if __name__ == "__main__":
     parser.add_argument("--health", help="player health (default: 100)", type=int, default=100)
     args = parser.parse_args()
     main(args.filepath, args.name, args.health)
-
     
+
+
 
