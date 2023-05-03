@@ -1,10 +1,10 @@
 from argparse import ArgumentParser
 import sys
 class Player:
-    def __init__(self, name, health):
+    def __init__(self, name, health=100):
         self.name = name
         self.inventory = []
-        self.health= health
+        self.health = 100
 
     def add_item(self, item):
         self.inventory.append(item)
@@ -31,53 +31,41 @@ class Story:
         return self.choices.get(choice, None)
 
 class Game(Player):
-    """def __init__(self, name, filepath, health):
-        super().__init__(name, health)"""
-    def story_maps(self):
-         self.story_map = {}
-         with open(filepath, "r", "utf-8") as f:
-             lines = f.readlines()
-             for line in lines:
-                 line = line.strip()
+    def __init__(self, name, filepath, health):
+        super().__init__(name, health)
+
+        self.story_map = {}
+        with open(filepath, "r", "utf-8") as f:
+            lines = f.readlines()
+            for line in lines:
+                line = line.strip()
 
    
 
     def play(self):
-        while not self.story.is_game_over():
-            print(self.story.display_story())
-            choices = self.story.get_choices()
+        current_story_id = "start"
+        print(self.story_map.keys())
+        while not self.story_map[current_story_id].get_choices().get("game_over", {}).get("is_game_over"):
+            story = self.story_map[current_story_id]
+            print(story.display_story())
+            choices = story.get_choices()
             for choice_id, choice_data in choices.items():
                 print(f"{choice_id}: {choice_data['choice_text']}")
             choice = input("Enter your choice: ")
-            self.story.update_story(choice)
+            current_story_id = story.update_story(choice).get("next_story")
         print("Game Over")
         
 def main():
     player_name = input("Enter your name: ")
-    game = Game(player_name, "story.txt",health= 100)
+    game = Game(player_name, "story.txt")
     game.play_game()
 
 if __name__ == "__main__":
-    main()
-
-
-def parse_args(arglist):
-    """Parse command-line arguments.
-    
-    Expects one mandatory command-line argument: a path to a text file where
-    each line consists of a name, a tab character, and a phone number.
-    
-    Args:
-        arglist (list of str): a list of command-line arguments to parse.
-        
-    Returns:
-        argparse.Namespace: a namespace object with a file attribute whose value
-        is a path to a text file as described above.
-    """
     parser = ArgumentParser()
-    parser.add_argument("filepath", help="file of story")
-    return parser.parse_args(arglist)
+    parser.add_argument("filepath", help="path to story file")
+    parser.add_argument("--name", help="player name (default: Player)", default="Player")
+    parser.add_argument("--health", help="player health (default: 100)", type=int, default=100)
+    args = parser.parse_args()
+    main(args.filepath, args.name, args.health)
 
-if __name__ == "__main__":
-    args = parse_args(sys.argv[1:])
-    main(args.file)
+
