@@ -55,10 +55,10 @@ class Game(Player):
             current_story_id = story.update_story(choice).get("next_story")
         print("Game Over")
         
-def main():
-    player_name = input("Enter your name: ")
-    game = Game(player_name, "story.txt")
-    game.play_game()
+def main(filepath, name, health):
+    name = input("Enter your name: ")
+    game = Game(filepath, name, health)
+    game.play()
 
 if __name__ == "__main__":
     parser = ArgumentParser()
@@ -67,5 +67,7 @@ if __name__ == "__main__":
     parser.add_argument("--health", help="player health (default: 100)", type=int, default=100)
     args = parser.parse_args()
     main(args.filepath, args.name, args.health)
+    
+
 
 
