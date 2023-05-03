@@ -4,7 +4,7 @@ class Player:
     def __init__(self, name, health):
         self.name = name
         self.inventory = []
-        self.health = 100
+        self.health= health
 
     def add_item(self, item):
         self.inventory.append(item)
@@ -31,14 +31,14 @@ class Story:
         return self.choices.get(choice, None)
 
 class Game(Player):
-    def __init__(self, name, filepath, health):
-        super().__init__(name, health)
-
-        self.story_map = {}
-        with open(filepath, "r", "utf-8") as f:
-            lines = f.readlines()
-            for line in lines:
-                line = line.strip()
+    """def __init__(self, name, filepath, health):
+        super().__init__(name, health)"""
+    def story_maps(self):
+         self.story_map = {}
+         with open(filepath, "r", "utf-8") as f:
+             lines = f.readlines()
+             for line in lines:
+                 line = line.strip()
 
    
 
@@ -54,7 +54,7 @@ class Game(Player):
         
 def main():
     player_name = input("Enter your name: ")
-    game = Game(player_name, "story.txt")
+    game = Game(player_name, "story.txt",health= 100)
     game.play_game()
 
 if __name__ == "__main__":
