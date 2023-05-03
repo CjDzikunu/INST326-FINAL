@@ -30,7 +30,7 @@ class Story:
     def update_story(self, choice):
         return self.choices.get(choice, None)
 
-class Game(Player, Story):
+class Game(Player):
     def __init__(self, filepath, name, health):
         super().__init__(name, health)
         
