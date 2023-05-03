@@ -1,5 +1,7 @@
 from argparse import ArgumentParser
 import sys
+import json
+
 class Player:
     def __init__(self, name, health=100):
         self.name = name
@@ -13,7 +15,11 @@ class Player:
         print(f"{self.name}'s Inventory: {self.inventory}")
         
     def is_alive(self):
-        return self.health > 0
+        return True if self.health > 0 else False
+    
+    def __sub__(self, operator):
+        new_player = Player(self.name, self.health - operator)
+        return new_player
     
 class Story:
     def __init__(self, story_id, story_text, choices):
@@ -25,35 +31,64 @@ class Story:
         return self.story_text
     
     def get_choices(self):
-        return self.choices
-    
+        choice_objects = {}
+        for choice_id, choice_data in self.choices.items():
+            if isinstance(choice_data, str):
+                choice_objects[choice_id] = {"next_story": choice_data}
+            else:
+                for next_story_key, next_story_value in choice_data.items():
+                    if next_story_key != "Choice":
+                        choice_objects[choice_id] = {next_story_key: next_story_value}
+        return choice_objects
+
+
     def update_story(self, choice):
-        return self.choices.get(choice, None)
+        if not choice:
+            return None
+
+        if isinstance(choice, str):
+            choice_id = choice.strip()
+        elif isinstance(choice, dict) and "next_story" in choice:
+            choice_id = choice["next_story"]
+        else:
+            return None
+
+        return self.choices.get(choice_id)
 
 class Game(Player):
     def __init__(self, filepath, name, health):
         super().__init__(name, health)
 
         self.story_map = {}
-        with open(filepath, "r", "utf-8") as f:
-            lines = f.readlines()
-            for line in lines:
-                line = line.strip()
-
-   
+        with open(filepath, "r") as f:
+            data = json.load(f)
+            for story_id, story_data in data.items():
+                story_text = story_data.get("story_text")
+                choices = story_data.get("Choice", {})
+                self.story_map[story_id] = Story(story_id, story_text, choices)
 
     def play(self):
         current_story_id = "start"
         print(self.story_map.keys())
-        while not self.story_map[current_story_id].get_choices().get("game_over", {}).get("is_game_over"):
+        while True:
             story = self.story_map[current_story_id]
             print(story.display_story())
             choices = story.get_choices()
             for choice_id, choice_data in choices.items():
-                print(f"{choice_id}: {choice_data['choice_text']}")
-            choice = input("Enter your choice: ")
-            current_story_id = story.update_story(choice).get("next_story")
-        print("Game Over")
+                print(f"{choice_id}: {choice_data}")
+            try:
+                choice = input("Enter your choice: ")
+                choice_dict = json.loads(choice)
+                if not isinstance(choice_dict, dict):
+                    raise ValueError
+            except (json.JSONDecodeError, ValueError):
+                print("Invalid format. Please try again")
+                continue
+            current_story_id = story.update_story(choice_dict)
+            if self.story_map[current_story_id].get_choices().get("game_over", {}).get("is_game_over"):
+             print("Game Over")
+             break
+
         
 def main(filepath, name, health):
     name = input("Enter your name: ")
@@ -67,7 +102,3 @@ if __name__ == "__main__":
     parser.add_argument("--health", help="player health (default: 100)", type=int, default=100)
     args = parser.parse_args()
     main(args.filepath, args.name, args.health)
-    
-
-
-
