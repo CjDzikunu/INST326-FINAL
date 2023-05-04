@@ -17,6 +17,10 @@ class Player:
     def is_alive(self):
         return True if self.health > 0 else False
     
+    def __add__(self, operator):
+        new_player = Player(self.name, self.health + operator)
+        return new_player
+        
     def __sub__(self, operator):
         new_player = Player(self.name, self.health - operator)
         return new_player
@@ -51,9 +55,13 @@ class Story:
         elif isinstance(choice, dict) and "next_story" in choice:
             choice_id = choice["next_story"]
         else:
-            return None
-
-        return self.choices.get(choice_id)
+            raise ValueError("Invalid choice. Please try again")
+        next_story = self.choices.get(choice_id)
+        if "game_over" in next_story:
+            print(next_story)
+            print("Your game is over")   
+        
+        return next_story
 
 class Game(Player):
     def __init__(self, filepath, name, health):
