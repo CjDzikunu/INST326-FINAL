@@ -57,9 +57,7 @@ class Story:
         else:
             raise ValueError("Invalid choice. Please try again")
         next_story = self.choices.get(choice_id)
-        if "game_over" in next_story:
-            print(next_story)
-            print("Your game is over")   
+          
         
         return next_story
 
@@ -72,13 +70,16 @@ class Game(Player):
             data = json.load(f)
             for story_id, story_data in data.items():
                 story_text = story_data.get("story_text")
-                choices = story_data.get("Choice", {})
+                choices = story_data.get("Choice")
                 self.story_map[story_id] = Story(story_id, story_text, choices)
 
     def play(self):
         current_story_id = "start"
         print(self.story_map.keys())
         while True:
+            if current_story_id.__contains__("game_over"):
+                print(self.story_map[current_story_id])
+                break
             story = self.story_map[current_story_id]
             print(story.display_story())
             choices = story.get_choices()
@@ -93,9 +94,7 @@ class Game(Player):
                 print("Invalid format. Please try again")
                 continue
             current_story_id = story.update_story(choice_dict)
-            if self.story_map[current_story_id].get_choices().get("game_over", {}).get("is_game_over"):
-             print("Game Over")
-             break
+            
 
         
 def main(filepath, name, health):

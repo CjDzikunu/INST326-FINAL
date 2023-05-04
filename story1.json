@@ -13,7 +13,7 @@
             "run": "path3"
         }
     },
-    "path3": {
+    "path2": {
         "story_text": "You enter the cave and find an old room, you feel a magical presence behind door. Do you open or leave",
         "Choice": {
             "open": "path4",
@@ -21,20 +21,25 @@
         }
     },
     "game_over": {
-        "story_text": "The goblin smashes your head" 
+        "story_text": "The goblin smashes your head",
+        "is_game_over": true 
     },
-    "game_over1": {
-        "story_text": "You leave the cave and immediately get attacked by a pride of fire-breathing griffins"
-    },
-    "path4": {
-        "story_text": "You open the door and find a mysterious glowing sword. Do you take_sword or Dont",
+    "path3": {
+        "story_text": "You run",
         "Choice": {
             "take_sword": "path5",
             "Dont": "game_over2"
         }
     },
-    "game_over2": {
-        "story_text": "The ghost of the sword possesses you and you lose your body"
+    "path4": {
+        "story_text": "You open the door and find a mysterious glowing sword. Do you take_sword or Dont",
+        "Choice": {
+            "take_sword": "path6",
+            "Dont": "game_over3"
+        }
+    },
+    "game_over1": {
+        "story_text": "You leave the cave and immediately get attacked by a pride of fire-breathing griffins"
     },
     "path5": {
         "story_text": "You add the sword to your inventory. continue",
@@ -42,11 +47,16 @@
             "continue": "path6"
         }
     },
+    "game_over2": {
+        "story_text": "The ghost of the sword possesses you and you lose your body",
+        "is_game_over": true
+    },
+
     "path6": {
         "story_text": "You eventually make your way to a bustling nearby town. Do you enter or leave",
         "Choice": {
             "enter": "path7",
-            "leave": "game_over3"
+            "leave": "game_over4"
         }
     },
     "game_over3": {
@@ -54,5 +64,9 @@
     },
     "path7": {
         "story_text": "You are amazed and confused of the scenery of the town, the people are happy. You head to a tavern for a day's rest"
+    },
+    "game_over4": {
+        "story_text": "Get rekt kid"
     }
+    
 }
