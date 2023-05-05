@@ -1,13 +1,13 @@
 {
     "start": {
-        "story_text": "You wake up in an unfamiliar forest.There are two paths ahead. Choose path1 or path2",
+        "story_text": "You wake up in an unfamiliar forest. There are two paths ahead. Choose path1 or path2",
         "Choice": {
             "path1": "path1",
             "path2": "path2"
         }
     },
     "path1": {
-        "story_text": "You proceed along the path, but encounter a pack of goblins, Do you fight or run ",
+        "story_text": "You proceed along the path, but encounter a pack of goblins. Do you fight or run ",
         "Choice": {
             "fight": "game_over",
             "run": "path3"

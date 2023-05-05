@@ -35,15 +35,7 @@ class Story:
         return self.story_text
     
     def get_choices(self):
-        choice_objects = {}
-        for choice_id, choice_data in self.choices.items():
-            if isinstance(choice_data, str):
-                choice_objects[choice_id] = {"next_story": choice_data}
-            else:
-                for next_story_key, next_story_value in choice_data.items():
-                    if next_story_key != "Choice":
-                        choice_objects[choice_id] = {next_story_key: next_story_value}
-        return choice_objects
+        return self.choices
 
 
     def update_story(self, choice):
@@ -52,10 +44,6 @@ class Story:
 
         if isinstance(choice, str):
             choice_id = choice.strip()
-        elif isinstance(choice, dict) and "next_story" in choice:
-            choice_id = choice["next_story"]
-        else:
-            raise ValueError("Invalid choice. Please try again")
         next_story = self.choices.get(choice_id)
           
         
@@ -78,22 +66,26 @@ class Game(Player):
         print(self.story_map.keys())
         while True:
             if current_story_id.__contains__("game_over"):
-                print(self.story_map[current_story_id])
+                story_is_over = self.story_map[current_story_id]
+                print(story_is_over.display_story())
+                print("Game Over")
                 break
             story = self.story_map[current_story_id]
+            print()
             print(story.display_story())
             choices = story.get_choices()
-            for choice_id, choice_data in choices.items():
-                print(f"{choice_id}: {choice_data}")
-            try:
+            print()
+            if not choices:
+                break
+            while True:
+                for choice_id in choices:
+                    print(f"{choice_id}")
                 choice = input("Enter your choice: ")
-                choice_dict = json.loads(choice)
-                if not isinstance(choice_dict, dict):
-                    raise ValueError
-            except (json.JSONDecodeError, ValueError):
-                print("Invalid format. Please try again")
-                continue
-            current_story_id = story.update_story(choice_dict)
+                    
+                current_story_id = story.update_story(choice)
+                if current_story_id:
+                    break
+                print("Invalid choice. Please try again") 
             
 
         
