@@ -185,7 +185,7 @@ class Game(Player):
                 and an invalid choice error.
         """
         current_story_id = "start"
-        print(self.story_map.keys())
+        
         while True:
             if current_story_id.__contains__("game_over"):
                 story_is_over = self.story_map[current_story_id]
@@ -201,7 +201,7 @@ class Game(Player):
                 break
             while True:
                 for choice_id in choices:
-                    print(f"{choice_id}")
+                    print(f"{choice_id}:")
                 choice = input("Enter your choice: ")
                     
                 current_story_id = story.update_story(choice)
