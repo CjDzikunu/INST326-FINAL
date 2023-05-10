@@ -42,7 +42,7 @@ class Player:
 
     def display_inventory(self):
         """ Primary Author:
-            Technique:
+            Technique: f-strings
             Prints the player's current inventory.
         
         Side Effects:
@@ -52,7 +52,7 @@ class Player:
         
     def is_alive(self):
         """ Primary Author:
-            Techniques:
+            Techniques: conditional expressions
             Checks player's current health to see if they are alive.
         
         Returns:
@@ -107,7 +107,9 @@ class Story:
             their story path.
     """
     def __init__(self, story_id, story_text, choices):
-        """Initializes a Story object.
+        """ Primary Author:
+        
+            Initializes a Story object.
         
         Args:
             story_id (str): a unique key for each possible story path.
@@ -123,7 +125,8 @@ class Story:
         self.choices = choices
     
     def display_story(self):
-        """Returns the story's current text.
+        """ Primary Author:
+            Returns the story's current text.
         
         Returns:
             self.story_text: the current text in the story.
@@ -131,7 +134,9 @@ class Story:
         return self.story_text
     
     def get_choices(self):
-        """Returns the avaible choices for the given point in the story.
+        """ Primary Author:
+        
+            Returns the avaible choices for the given point in the story.
         
         Returns:
             self.choices: the available choices for the current path.
@@ -140,7 +145,9 @@ class Story:
 
 
     def update_story(self, choice):
-        """Updates the story based on the player's choice and 
+        """ Primary Author:
+            
+            Updates the story based on the player's choice and 
             returns the next part. Returns None if there is no 
             next part.
         
@@ -162,11 +169,8 @@ class Story:
         
         return next_story
 
-class Game(Player):
-    """ Primary Author:
-        Techniques: With, json.load()
-    
-        A class representing the game, inherits the Player class.
+class Game():
+    """ A class representing the game, inherits the Player class.
     
     Attributes:
         filepath (str): the path leading to a file containing 
@@ -176,7 +180,7 @@ class Game(Player):
     """
     def __init__(self, filepath, name, health):
         """ Primary Author:
-            Techniques: 
+            Techniques: sequence unpacking, with
             Initializes a Game object.
         
         Args:
@@ -188,7 +192,7 @@ class Game(Player):
         Side Effects:
             Initializes name and health.
         """
-        super().__init__(name, health)
+        
 
         self.story_map = {}
         with open(filepath, "r") as f:
