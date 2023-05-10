@@ -1,6 +1,8 @@
 from argparse import ArgumentParser
-import sys
 import json
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
 
 class Player:
     """A class representing the player character in a story.
@@ -12,7 +14,10 @@ class Player:
         health (int): the amount of health points a player has.
     """
     def __init__(self, name, health=100):
-        """Initializes a Player object.
+        """ Primary Author:
+            Techniques:
+
+            Initializes a Player object.
         
         Args:
             name (str): the player's name.
@@ -25,7 +30,7 @@ class Player:
         self.inventory = []
         self.health = 100
 
-    def add_item(self,item):
+    def add_item(self, item):
         """Appends an item to an inventory list.
         
         Args:
@@ -33,7 +38,9 @@ class Player:
         """
         self.inventory.append(item)
     def display_inventory(self):
-        """Prints the player's current inventory.
+        """ Primary Author:
+            Technique: f-strings
+            Prints the player's current inventory.
         
         Side Effects:
             Prints result as an f-string.
@@ -41,7 +48,9 @@ class Player:
         print(f"{self.name}'s Inventory: {self.inventory}")
         
     def is_alive(self):
-        """Checks player's current health to see if they are alive.
+        """ Primary Author:
+            Techniques: conditional expressions
+            Checks player's current health to see if they are alive.
         
         Returns:
             True: if health is greater than 0.
@@ -50,7 +59,10 @@ class Player:
         return True if self.health > 0 else False
     
     def __add__(self, operator):
-        """Returns a new Player object with the player's health 
+        """ Primary Author:
+            Techniques: magic method
+            
+            Returns a new Player object with the player's health 
             increased by the given operator.
             
             Args:
@@ -65,7 +77,10 @@ class Player:
         return new_player
         
     def __sub__(self, operator):
-        """Returns a new Player object with the player's health 
+        """ Primary Author:
+            Techniques: magic method
+            
+            Returns a new Player object with the player's health 
             decreased by the given operator.
             
             Args:
@@ -89,7 +104,7 @@ class Story:
             their story path.
         items(str): they are possible items the player can pick up and add to their inventory
     """
-    def __init__(self, story_id, story_text, choices,items):
+    def __init__(self, story_id, story_text, choices):
         """Initializes a Story object.
         
         Args:
@@ -108,7 +123,8 @@ class Story:
         self.items = items
     
     def display_story(self):
-        """Returns the story's current text.
+        """ Primary Author:
+            Returns the story's current text.
         
         Returns:
             self.story_text: the current text in the story.
@@ -116,7 +132,9 @@ class Story:
         return self.story_text
     
     def get_choices(self):
-        """Returns the avaible choices for the given point in the story.
+        """ Primary Author:
+        
+            Returns the avaible choices for the given point in the story.
         
         Returns:
             self.choices: the available choices for the current path.
@@ -128,7 +146,9 @@ class Story:
 
 
     def update_story(self, choice):
-        """Updates the story based on the player's choice and 
+        """ Primary Author:
+            
+            Updates the story based on the player's choice and 
             returns the next part. Returns None if there is no 
             next part.
         
@@ -152,8 +172,8 @@ class Story:
         
         return next_story
 
-class Game(Player):
-    """A class representing the game, inherits the Player class.
+class Game():
+    """ A class representing the game, inherits the Player class.
     
     Attributes:
         filepath (str): the path leading to a file containing 
@@ -161,8 +181,10 @@ class Game(Player):
         name (str): the player's name.
         health (int): the amount of health points a player has.
     """
-    def __init__(self, filepath, name, health):
-        """Initializes a Game object.
+    def __init__(self, filepath):
+        """ Primary Author:
+            Techniques: sequence unpacking, with
+            Initializes a Game object.
         
         Args:
             filepath (str): the path leading to a file containing 
@@ -173,7 +195,7 @@ class Game(Player):
         Side Effects:
             Initializes name and health.
         """
-        super().__init__(name, health)
+        
 
         self.story_map = {}
         with open(filepath, "r") as f:
@@ -181,17 +203,20 @@ class Game(Player):
             for story_id, story_data in data.items():
                 story_text = story_data.get("story_text")
                 choices = story_data.get("Choice")
-                items = story_data.get("items")
-                self.story_map[story_id] = Story(story_id, story_text, choices,items)
+                self.story_map[story_id] = Story(story_id, story_text, choices)
 
     def play(self):
-        """Displays the story and choices made as the game is played,
+        """ Primary Author: Uchenna Ekwunife
+            Techniques: Composition
+        
+            Displays the story and choices made as the game is played,
             story is updated based on the player's choices.
         
         Side Effects:
             Prints the current story, choices, a game over message, 
                 and an invalid choice error.
         """
+       
         current_story_id = "start"
         
         while True:
@@ -230,7 +255,10 @@ class Game(Player):
 
         
 def main(filepath, name, health):
-    """A function that runs the program. It allows users to enter
+    """Primary Author: 
+        Technique: ArgumentParser
+        
+        A function that runs the program. It allows users to enter
         their name, and reads a story file and the amount of health
         they have to create an instance of a Game object.
     
@@ -242,8 +270,11 @@ def main(filepath, name, health):
     
     """
     name = input("Enter your name: ")
-    game = Game(filepath, name, health)
+    game = Game(filepath)
     game.play()
+    df = game.load_frequency()
+    print(df)
+    
 
 if __name__ == "__main__":
     """This is executed when the script is run directly 
