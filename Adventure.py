@@ -112,7 +112,6 @@ class Story:
             story_text (str): the text in the story.
             choices (dict): the available choices the player can pick as 
                 their story path.
-            items(str): they are possible items the player can pick up and add to their inventory
                 
         Side Effects:
             Initializes story_id, story_text, and choices items.
@@ -120,7 +119,6 @@ class Story:
         self.story_id = story_id
         self.story_text = story_text
         self.choices = choices
-        self.items = items
     
     def display_story(self):
         """ Primary Author:
@@ -140,9 +138,6 @@ class Story:
             self.choices: the available choices for the current path.
         """
         return self.choices
-    
-    def get_items(self):
-        return self.items
 
 
     def update_story(self, choice):
@@ -224,14 +219,11 @@ class Game():
                 story_is_over = self.story_map[current_story_id]
                 print(story_is_over.display_story())
                 print("Game Over")
-                self.display_inventory()
                 break
-            self.display_inventory()
             story = self.story_map[current_story_id]
             print()
             print(story.display_story())
             choices = story.get_choices()
-            items = story.get_items()
             print()
             if not choices:
                 break
@@ -243,13 +235,7 @@ class Game():
                 if current_story_id:
                     break
                 print("Invalid choice. Please try again") 
-                if items in story:
-                     for items_id in items:
-                        prompt = input(f"Do you want to pick up{items_id}. yes or no: ")
-                        self.add_item(items_id)
-                        print(f"{items_id}added to inventory")
-                else:
-                     print(f"{items_id}not added to inventory")
+           
                 
             
 
