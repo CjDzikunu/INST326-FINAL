@@ -1,6 +1,8 @@
 from argparse import ArgumentParser
-import sys
 import json
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
 
 class Player:
     """A class representing the player character in a story.
@@ -12,7 +14,10 @@ class Player:
         health (int): the amount of health points a player has.
     """
     def __init__(self, name, health=100):
-        """Initializes a Player object.
+        """ Primary Author:
+            Techniques:
+
+            Initializes a Player object.
         
         Args:
             name (str): the player's name.
@@ -26,7 +31,9 @@ class Player:
         self.health = 100
 
     def add_item(self, item):
-        """Appends an item to an inventory list.
+        """Primary Author:
+            Technique:
+            Appends an item to an inventory list.
         
         Args:
             item (str): the item that will go into a player's inventory.
@@ -34,7 +41,9 @@ class Player:
         self.inventory.append(item)
 
     def display_inventory(self):
-        """Prints the player's current inventory.
+        """ Primary Author:
+            Technique:
+            Prints the player's current inventory.
         
         Side Effects:
             Prints result as an f-string.
@@ -42,7 +51,9 @@ class Player:
         print(f"{self.name}'s Inventory: {self.inventory}")
         
     def is_alive(self):
-        """Checks player's current health to see if they are alive.
+        """ Primary Author:
+            Techniques:
+            Checks player's current health to see if they are alive.
         
         Returns:
             True: if health is greater than 0.
@@ -51,7 +62,10 @@ class Player:
         return True if self.health > 0 else False
     
     def __add__(self, operator):
-        """Returns a new Player object with the player's health 
+        """ Primary Author:
+            Techniques: magic method
+            
+            Returns a new Player object with the player's health 
             increased by the given operator.
             
             Args:
@@ -66,7 +80,10 @@ class Player:
         return new_player
         
     def __sub__(self, operator):
-        """Returns a new Player object with the player's health 
+        """ Primary Author:
+            Techniques: magic method
+            
+            Returns a new Player object with the player's health 
             decreased by the given operator.
             
             Args:
@@ -146,7 +163,10 @@ class Story:
         return next_story
 
 class Game(Player):
-    """A class representing the game, inherits the Player class.
+    """ Primary Author:
+        Techniques: With, json.load()
+    
+        A class representing the game, inherits the Player class.
     
     Attributes:
         filepath (str): the path leading to a file containing 
@@ -155,7 +175,9 @@ class Game(Player):
         health (int): the amount of health points a player has.
     """
     def __init__(self, filepath, name, health):
-        """Initializes a Game object.
+        """ Primary Author:
+            Techniques: 
+            Initializes a Game object.
         
         Args:
             filepath (str): the path leading to a file containing 
@@ -175,15 +197,43 @@ class Game(Player):
                 story_text = story_data.get("story_text")
                 choices = story_data.get("Choice")
                 self.story_map[story_id] = Story(story_id, story_text, choices)
+    
+    
+    def load_frequency(self):
+        """ Primary Author: Uchenna Ekwunife
+            Techniques: Pandas, pyplot, seaborn
+            
+            Loads data from a JSON file containing a story and displays a bar plot of the frequency of each choice made by readers.
+        """
+        with open('story1.json') as f:
+            story = json.load(f)
+            counts = {}
+            
+            for key in story:
+                if 'Choice' in story[key]:
+                    for choice in story[key]['Choice']:
+                        counts[choice] = counts.get(choice, 0) + 1
 
+            data = [(choice, count) for choice, count in counts.items()]
+            df = pd.DataFrame(data, columns=['choice', 'count'])
+               
+            sns.barplot(x='count', y='choice', data=df)
+            plt.xlabel('Count')
+            plt.ylabel('Choice')
+            plt.show()
+            
     def play(self):
-        """Displays the story and choices made as the game is played,
+        """ Primary Author: Uchenna Ekwunife
+            Techniques: Composition
+        
+            Displays the story and choices made as the game is played,
             story is updated based on the player's choices.
         
         Side Effects:
             Prints the current story, choices, a game over message, 
                 and an invalid choice error.
         """
+       
         current_story_id = "start"
         
         while True:
@@ -212,7 +262,10 @@ class Game(Player):
 
         
 def main(filepath, name, health):
-    """A function that runs the program. It allows users to enter
+    """Primary Author: 
+        Technique: ArgumentParser
+        
+        A function that runs the program. It allows users to enter
         their name, and reads a story file and the amount of health
         they have to create an instance of a Game object.
     
@@ -226,6 +279,9 @@ def main(filepath, name, health):
     name = input("Enter your name: ")
     game = Game(filepath, name, health)
     game.play()
+    df = game.load_frequency()
+    print(df)
+    
 
 if __name__ == "__main__":
     """This is executed when the script is run directly 

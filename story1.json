@@ -32,7 +32,7 @@
         }
     },
     "path4": {
-        "story_text": "You enter the cave and see engravings on the walls in an unknown language. You continue walking and find an old room. You feel a magical presence behind its door.  Do you open or leave?",
+        "story_text": " You enter the cave and see engravings on the walls in an unknown language. You continue walking and find an old room. You feel a magical presence behind its door.  Do you open or leave?",
         "Choice": {
             "open": "path6",
             "leave": "game_over3"
