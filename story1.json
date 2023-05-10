@@ -1,4 +1,5 @@
-{
+{   
+    
     "start": {
         "story_text": "You wake up in an unfamiliar forest. There are two paths ahead. Choose path1 or path2",
         "Choice": {
@@ -46,6 +47,7 @@
         "items":"magic book",
         "Choice": {
             "lair": "game_over4",
+            "items": "magic book",
             "tower":"path7"
         }
     },
@@ -81,7 +83,8 @@
         "story_text":" You try to grab the sword and struggle to pull it out. You use all your strength and fly backwards with the sword in hand. You examine it, and see it has glowing marks all over it. You add it to your inventory. continue",
         "items":"ancient sword",
         "Choice":{
-            "continue":"game_over8"
+            "continue":"game_over8",
+            "items": "ancient sword"
         }
     },
     "game_over5": {

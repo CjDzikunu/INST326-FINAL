@@ -13,7 +13,7 @@ class Player:
             a player will pick up.
         health (int): the amount of health points a player has.
     """
-    def __init__(self, name, health=100):
+    def __init__(self, name, health = 100):
         """ Primary Author:
             Techniques:
 
@@ -28,7 +28,7 @@ class Player:
         """
         self.name = name
         self.inventory = []
-        self.health = 100
+        self.health = health
 
     def add_item(self, item):
         """Primary Author:
@@ -48,7 +48,8 @@ class Player:
         Side Effects:
             Prints result as an f-string.
         """
-        print(f"{self.name}'s Inventory: {self.inventory}")
+        inventory_str = ''.join(self.inventory)
+        print("Inventory: ", inventory_str)
         
     def is_alive(self):
         """ Primary Author:
@@ -106,7 +107,7 @@ class Story:
         choices (dict): the available choices the player can pick as
             their story path.
     """
-    def __init__(self, story_id, story_text, choices):
+    def __init__(self, story_id, story_text, choices, items):
         """ Primary Author:
         
             Initializes a Story object.
@@ -123,6 +124,8 @@ class Story:
         self.story_id = story_id
         self.story_text = story_text
         self.choices = choices
+        self.items = items
+        
     
     def display_story(self):
         """ Primary Author:
@@ -142,6 +145,9 @@ class Story:
             self.choices: the available choices for the current path.
         """
         return self.choices
+    
+    def get_items(self):
+        return self.items
 
 
     def update_story(self, choice):
@@ -200,7 +206,8 @@ class Game():
             for story_id, story_data in data.items():
                 story_text = story_data.get("story_text")
                 choices = story_data.get("Choice")
-                self.story_map[story_id] = Story(story_id, story_text, choices)
+                items = story_data.get("items")
+                self.story_map[story_id] = Story(story_id, story_text, choices, items)
     
     
     def load_frequency(self):
@@ -237,7 +244,7 @@ class Game():
             Prints the current story, choices, a game over message, 
                 and an invalid choice error.
         """
-       
+        player = Player(self)
         current_story_id = "start"
         
         while True:
@@ -250,9 +257,16 @@ class Game():
             print()
             print(story.display_story())
             choices = story.get_choices()
+            items = story.get_items()
             print()
             if not choices:
                 break
+            items = story.get_items()
+            if items:
+                for item_id in items:
+                    player.add_item(item_id)
+                    player.display_inventory()
+
             while True:
                 for choice_id in choices:
                     print(f"{choice_id}:")
@@ -262,13 +276,7 @@ class Game():
                 if current_story_id:
                     break
                 print("Invalid choice. Please try again") 
-                if items in story:
-                     for items_id in items:
-                        prompt = input(f"Do you want to pick up{items_id}. yes or no: ")
-                        self.add_item(items_id)
-                        print(f"{items_id}added to inventory")
-                else:
-                     print(f"{items_id}not added to inventory")
+                
                 
             
 
