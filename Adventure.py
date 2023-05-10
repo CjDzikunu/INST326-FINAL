@@ -25,14 +25,13 @@ class Player:
         self.inventory = []
         self.health = 100
 
-    def add_item(self, item):
+    def add_item(self,item):
         """Appends an item to an inventory list.
         
         Args:
             item (str): the item that will go into a player's inventory.
         """
         self.inventory.append(item)
-
     def display_inventory(self):
         """Prints the player's current inventory.
         
@@ -88,8 +87,9 @@ class Story:
         story_text (str): the text in the story.
         choices (dict): the available choices the player can pick as
             their story path.
+        items(str): they are possible items the player can pick up and add to their inventory
     """
-    def __init__(self, story_id, story_text, choices):
+    def __init__(self, story_id, story_text, choices,items):
         """Initializes a Story object.
         
         Args:
@@ -97,13 +97,15 @@ class Story:
             story_text (str): the text in the story.
             choices (dict): the available choices the player can pick as 
                 their story path.
+            items(str): they are possible items the player can pick up and add to their inventory
                 
         Side Effects:
-            Initializes story_id, story_text, and choices.
+            Initializes story_id, story_text, and choices items.
         """
         self.story_id = story_id
         self.story_text = story_text
         self.choices = choices
+        self.items = items
     
     def display_story(self):
         """Returns the story's current text.
@@ -120,6 +122,9 @@ class Story:
             self.choices: the available choices for the current path.
         """
         return self.choices
+    
+    def get_items(self):
+        return self.items
 
 
     def update_story(self, choice):
@@ -141,6 +146,8 @@ class Story:
 
         if isinstance(choice, str):
             choice_id = choice.strip()
+        else:
+            choice_id = None
         next_story = self.choices.get(choice_id)
         
         return next_story
@@ -174,7 +181,8 @@ class Game(Player):
             for story_id, story_data in data.items():
                 story_text = story_data.get("story_text")
                 choices = story_data.get("Choice")
-                self.story_map[story_id] = Story(story_id, story_text, choices)
+                items = story_data.get("items")
+                self.story_map[story_id] = Story(story_id, story_text, choices,items)
 
     def play(self):
         """Displays the story and choices made as the game is played,
@@ -191,11 +199,14 @@ class Game(Player):
                 story_is_over = self.story_map[current_story_id]
                 print(story_is_over.display_story())
                 print("Game Over")
+                self.display_inventory()
                 break
+            self.display_inventory()
             story = self.story_map[current_story_id]
             print()
             print(story.display_story())
             choices = story.get_choices()
+            items = story.get_items()
             print()
             if not choices:
                 break
@@ -203,11 +214,18 @@ class Game(Player):
                 for choice_id in choices:
                     print(f"{choice_id}:")
                 choice = input("Enter your choice: ")
-                    
                 current_story_id = story.update_story(choice)
                 if current_story_id:
                     break
                 print("Invalid choice. Please try again") 
+                if items in story:
+                     for items_id in items:
+                        prompt = input(f"Do you want to pick up{items_id}. yes or no: ")
+                        self.add_item(items_id)
+                        print(f"{items_id}added to inventory")
+                else:
+                     print(f"{items_id}not added to inventory")
+                
             
 
         
