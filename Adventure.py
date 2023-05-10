@@ -178,7 +178,7 @@ class Game():
         name (str): the player's name.
         health (int): the amount of health points a player has.
     """
-    def __init__(self, filepath, name, health):
+    def __init__(self, filepath):
         """ Primary Author:
             Techniques: sequence unpacking, with
             Initializes a Game object.
@@ -281,7 +281,7 @@ def main(filepath, name, health):
     
     """
     name = input("Enter your name: ")
-    game = Game(filepath, name, health)
+    game = Game(filepath)
     game.play()
     df = game.load_frequency()
     print(df)
