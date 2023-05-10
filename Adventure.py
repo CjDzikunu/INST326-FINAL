@@ -262,6 +262,14 @@ class Game():
                 if current_story_id:
                     break
                 print("Invalid choice. Please try again") 
+                if items in story:
+                     for items_id in items:
+                        prompt = input(f"Do you want to pick up{items_id}. yes or no: ")
+                        self.add_item(items_id)
+                        print(f"{items_id}added to inventory")
+                else:
+                     print(f"{items_id}not added to inventory")
+                
             
 
         
