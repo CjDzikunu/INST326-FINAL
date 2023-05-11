@@ -246,7 +246,7 @@ class Game(Player):
             Prints the current story, inventory, choices, a game over message, 
                 and an invalid choice error.
         """
-        
+        player = Player(self)
         current_story_id = "start"
         
         while True:
@@ -254,6 +254,7 @@ class Game(Player):
                 story_is_over = self.story_map[current_story_id]
                 print(story_is_over.display_story())
                 print("Game Over")
+                player.display_inventory()
                 break
             story = self.story_map[current_story_id]
             print()
@@ -267,7 +268,8 @@ class Game(Player):
             if items:
                 for item_id in items:
                     player.add_item(item_id)
-                    player.display_inventory()
+                    print(f"{item_id} added to inventory")
+                    
 
             while True:
                 for choice_id in choices:
@@ -278,7 +280,7 @@ class Game(Player):
                 if current_story_id:
                     break
                 print("Invalid choice. Please try again") 
-            if items: 
+            """if items: 
                  for thing in items:
                     prompt = input(f"Confirm you have added {thing} to your bag. yes or no: \n")
                     
@@ -286,7 +288,7 @@ class Game(Player):
                         super().add_item(thing)
                         print(f"\n{thing} added to inventory")
                     else:
-                        print(f"{thing} not added to inventory")
+                        print(f"{thing} not added to inventory")"""
             
             
 
