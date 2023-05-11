@@ -43,7 +43,7 @@
     },
     "path5": {
         "story_text": "You pick and add the magic book to your inventory. You open up the book and a map falls out. You take a look at the map and see two large landmarks. A dragons lair and a Dark wizards tower. Do you go to the lair or tower? ",
-        "items":"magic book",
+        "items":["magic book"],
         "Choice": {
             "lair": "game_over4",
             "tower":"path7"
@@ -79,7 +79,7 @@
     },
     "path8":{
         "story_text":" You try to grab the sword and struggle to pull it out. You use all your strength and fly backwards with the sword in hand. You examine it, and see it has glowing marks all over it. You add it to your inventory. continue",
-        "items":"ancient sword",
+        "items":["ancient sword"],
         "Choice":{
             "continue":"game_over8"
         }
