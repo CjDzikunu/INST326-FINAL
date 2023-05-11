@@ -80,10 +80,11 @@
 
     },
     "path8":{
-        "story_text":" You try to grab the sword and struggle to pull it out. You use all your strength and fly backwards with the sword in hand. You examine it, and see it has glowing marks all over it. You add it to your inventory. continue",
+        "story_text":" You try to grab the sword and struggle to pull it out. You use all your strength and fly backwards with the sword in hand. You examine it, and see it has glowing marks all over it. You add it to your inventory. As you leave the cave you have two paths. left or right?",
         "items":["ancient sword"],
         "Choice":{
-            "continue":"game_over8",
+            "left":"game_over8",
+            "right":"path9",
             "items": "ancient sword"
         }
     },
@@ -99,6 +100,10 @@
     "game_over8":{
         "story_text":"You leave the cave with the sword in hand. As you journey intto the unknown you encounter a mob of monsters. But with your new sword, they proved to be of no problem. Eventually you run into a Knight and his party. They lead you to their town... your new life now begins! "
 
+    },
+    "path9":{
+        "story_text":"After crawling through the path you unexpectadly fall deeper in. You dust yourself off and walk around aimlessly, lantern in hand",
+        "battle": [15]
     }
 
     

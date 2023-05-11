@@ -280,6 +280,7 @@ class Game(Player):
                 if current_story_id:
                     break
                 print("Invalid choice. Please try again") 
+                #possibly add operators, like ints into the json file than implement it similar to items, reduce by the int, possibly give user an input.
             """if items: 
                  for thing in items:
                     prompt = input(f"Confirm you have added {thing} to your bag. yes or no: \n")
