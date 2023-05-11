@@ -13,8 +13,7 @@ class Player:
             a player will pick up.
         health (int): the amount of health points a player has.
     """
-  
-    def __init__(self, name, health=100):
+    def __init__(self, name, health = 100):
         """ Primary Author:
             Techniques:
 
@@ -51,7 +50,8 @@ class Player:
         Side Effects:
             Prints result as an f-string.
         """
-        return (f"{self.name}'s Inventory: {self.inventory}")
+        inventory_str = ''.join(self.inventory)
+        print("Inventory: ", inventory_str)
         
     def is_alive(self):
         """ Primary Author:
@@ -263,6 +263,12 @@ class Game(Player):
             print()
             if not choices:
                 break
+            items = story.get_items()
+            if items:
+                for item_id in items:
+                    player.add_item(item_id)
+                    player.display_inventory()
+
             while True:
                 for choice_id in choices:
                     print(f"{choice_id}:")
