@@ -15,8 +15,7 @@ class Player:
     """
     def __init__(self, name, health = 100):
         """ Primary Author:
-            Techniques:
-
+            
             Initializes a Player object.
         
         Args:
@@ -33,7 +32,7 @@ class Player:
 
     def add_item(self, item):
         """Primary Author: Conrad Dzikunu,
-            Technique:
+            Technique: set operation
             Appends an item to an inventory list.
         
         Args:
@@ -43,7 +42,7 @@ class Player:
         self.inventory.add(item)
 
     def display_inventory(self):
-        """ Primary Author:Conrad Dzikunu
+        """ Primary Author: Conrad Dzikunu
             Technique: f-strings
             Prints the player's current inventory.
         
@@ -51,7 +50,7 @@ class Player:
             Prints result as an f-string.
         """
         inventory_str = ''.join(self.inventory)
-        print("Inventory: ", inventory_str)
+        print(f"Inventory: {inventory_str}")
         
     def is_alive(self):
         """ Primary Author:
@@ -109,7 +108,7 @@ class Story:
         choices (dict): the available choices the player can pick as
             their story path.
     """
-    def __init__(self, story_id, story_text, choices,items):
+    def __init__(self, story_id, story_text, choices, items):
         """ Primary Author:
         
             Initializes a Story object.
@@ -119,9 +118,10 @@ class Story:
             story_text (str): the text in the story.
             choices (dict): the available choices the player can pick as 
                 their story path.
+            items (dict): the available items to be added to a player's inventory
                 
         Side Effects:
-            Initializes story_id, story_text, and choices.
+            Initializes story_id, story_text, choices, and items.
         """
         self.story_id = story_id
         self.story_text = story_text
@@ -175,8 +175,8 @@ class Story:
         
         return next_story
 
-class Game(Player):
-    """ A class representing the game, inherits the Player class.
+class Game():
+    """ A class representing the game.
     
     Attributes:
         filepath (str): the path leading to a file containing 
@@ -255,6 +255,7 @@ class Game(Player):
                 print(story_is_over.display_story())
                 print("Game Over")
                 player.display_inventory()
+                print()
                 break
             story = self.story_map[current_story_id]
             print()
@@ -269,6 +270,8 @@ class Game(Player):
                 for item_id in items:
                     player.add_item(item_id)
                     print(f"{item_id} added to inventory")
+                    player.display_inventory()
+                    print()
                     
 
             while True:
@@ -292,7 +295,6 @@ class Game(Player):
                         print(f"{thing} not added to inventory")"""
             
             
-
         
 def main(filepath, name, health):
     """Primary Author: 
