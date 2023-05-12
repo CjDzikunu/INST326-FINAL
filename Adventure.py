@@ -14,7 +14,7 @@ class Player:
         health (int): the amount of health points a player has.
     """
     def __init__(self, name, health = 100):
-        """ Primary Author:
+        """ Primary Author: Jacob Edelin
             
             Initializes a Player object.
         
@@ -31,7 +31,7 @@ class Player:
     
 
     def add_item(self, item):
-        """Primary Author: Conrad Dzikunu,
+        """Primary Author: Conrad Dzikunu
             Technique: set operation
             Appends an item to an inventory list.
         
@@ -42,7 +42,7 @@ class Player:
         self.inventory.add(item)
 
     def display_inventory(self):
-        """ Primary Author: Conrad Dzikunu
+        """ Primary Author: Michelle Cantarero
             Technique: f-strings
             Prints the player's current inventory.
         
@@ -53,7 +53,7 @@ class Player:
         print(f"Inventory: {inventory_str}")
         
     def is_alive(self):
-        """ Primary Author:
+        """ Primary Author: Michelle Cantarero
             Techniques: conditional expressions
             Checks player's current health to see if they are alive.
         
@@ -64,7 +64,7 @@ class Player:
         return True if self.health > 0 else False
     
     def __add__(self, operator):
-        """ Primary Author:
+        """ Primary Author: Michelle Cantarero
             Techniques: magic method
             
             Returns a new Player object with the player's health 
@@ -82,7 +82,7 @@ class Player:
         return new_player
         
     def __sub__(self, operator):
-        """ Primary Author:
+        """ Primary Author: Michelle Cantarero
             Techniques: magic method
             
             Returns a new Player object with the player's health 
@@ -109,7 +109,7 @@ class Story:
             their story path.
     """
     def __init__(self, story_id, story_text, choices, items):
-        """ Primary Author:
+        """ Primary Author: Trisha Duque
         
             Initializes a Story object.
         
@@ -129,7 +129,7 @@ class Story:
         self.items = items
     
     def display_story(self):
-        """ Primary Author:
+        """ Primary Author: Trisha Duque
             Returns the story's current text.
         
         Returns:
@@ -138,7 +138,7 @@ class Story:
         return self.story_text
     
     def get_choices(self):
-        """ Primary Author:
+        """ Primary Author: Trisha Duque
         
             Returns the avaible choices for the given point in the story.
         
@@ -148,10 +148,17 @@ class Story:
         return self.choices
     
     def get_items(self):
+        """ Primary Author: Jacob Edelin
+        
+            Returns the avaible items on the given point in the story.
+        
+        Returns:
+            self.items: the available items on the current path.
+        """
         return self.items
 
     def update_story(self, choice):
-        """ Primary Author:
+        """ Primary Author: Trisha Duque
             
             Updates the story based on the player's choice and 
             returns the next part. Returns None if there is no 
@@ -185,7 +192,7 @@ class Game():
         health (int): the amount of health points a player has.
     """
     def __init__(self, filepath):
-        """ Primary Author:
+        """ Primary Author: Conrad Dzikunu
             Techniques: sequence unpacking, with
             Initializes a Game object.
         
@@ -288,7 +295,7 @@ class Game():
             
         
 def main(filepath, name, health):
-    """Primary Author: 
+    """Primary Author: Jacob Edelin
         Technique: ArgumentParser
         
         A function that runs the program. It allows users to enter
